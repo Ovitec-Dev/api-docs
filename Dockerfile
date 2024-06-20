@@ -1,52 +1,58 @@
-# BUILDER STAGE
+# Etapa de construcción
 FROM node:lts-alpine AS builder
 
-# Checking version node
-RUN node --version
-# Select workdir
+# Establecer directorio de trabajo
 WORKDIR /build
 
-# Copy code
-COPY . /build
+# Copiar archivos necesarios
+COPY package*.json ./
 
-# Build application 
+# Instalar dependencias
 RUN npm install
+
+# Copiar el código fuente
+COPY . .
+
+# Construir la aplicación
 RUN npm run build
 
-# LAUNCHER SERVER STAGE
+# Etapa de producción
 FROM node:lts-alpine
-ENV DIR_SWAGGER='./dist/src/shared/docs/swagger.yml'
-ENV DIR_ERROR='./dist/src/shared/handler/error.yml'
 
-ENV PORT=8080
-
-# Select workdir
+# Establecer directorio de trabajo
 WORKDIR /usr/src/app
 
-# Checking version node
-RUN node --version
+# Variables de entorno
+ENV DIR_SWAGGER='./dist/src/shared/docs/swagger.yml'
+ENV DIR_ERROR='./dist/src/shared/handler/error.yml'
+ENV PORT=8080
 
-# Install tools and change permissions
+# Instalar tini y cambiar permisos
 RUN apk add --no-cache tini \
-    && chown node:node /usr/src/app 
+    && chown node:node /usr/src/app
 
-# Add artifacts from builder image
+# Copiar artefactos desde la etapa de construcción
 COPY --chown=node:node --from=builder /build/dist dist
 COPY --chown=node:node --from=builder /build/package.json package.json
 COPY --chown=node:node --from=builder /build/node_modules node_modules
 COPY --chown=node:node --from=builder /build/tsconfig.json tsconfig.json
-# Copiar el archivo YAML necesario
+
+# Copiar archivos YAML necesarios
 COPY --chown=node:node --from=builder /build/src/shared/handler/error.yml dist/src/shared/handler/error.yml
 COPY --chown=node:node --from=builder /build/src/shared/docs dist/src/shared/docs
 
+# Crear archivo .env
 RUN touch dist/.env
 
-# Change to no-root user
-USER node 
+# Cambiar a usuario no-root
+USER node
+
+# Crear directorio de logs y enlace simbólico para logs
 RUN mkdir -p /usr/src/app/logs \
     && ln -sf /dev/stdout /usr/src/app/logs/server.log
 
+# Establecer directorio de trabajo para la ejecución
 WORKDIR /usr/src/app/dist
 
-# Run server
+# Comando para ejecutar el servidor
 ENTRYPOINT ["tini", "--", "npm", "run", "server:prod:docker"]
