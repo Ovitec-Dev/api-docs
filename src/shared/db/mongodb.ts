@@ -23,7 +23,8 @@ class ConnectorMongo {
       this.dbMap.set(dbName, db);
       logger.info(`Database ${dbName} connected`);
     }
-    return this.dbMap.get(dbName);
+    // El uso del operador de no nulo (!) asegura que no se devuelve `undefined`
+    return this.dbMap.get(dbName)!;
   }
 
   getCollection<T extends Document>(dbName: string, collection: string) {
