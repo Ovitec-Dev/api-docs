@@ -128,3 +128,18 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+# Built Visual Studio Code Extensions
+*.vsix
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+### Personal settings ###
+dist/
+build/
+public/content/images/projects/*
+public/content/attachments/projects/*
+public/tmp/*
+email-templates/*
+.DS_Store

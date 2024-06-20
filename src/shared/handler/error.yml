@@ -1,0 +1,143 @@
+general:
+  UNAUTHORIZED:
+    invalid_access_key:
+      key: 'general.UNAUTHORIZED.invalid_access_key'
+      code: 'INVALID_ACCESS_KEY'
+      message:
+        es: 'Se proporcionó una clave de acceso API no válida.'
+        en: 'An invalid API access key was supplied.'
+      status: 401
+    missing_access_key:
+      key: 'general.UNAUTHORIZED.missing_access_key'
+      code: 'UNAUTHORIZED'
+      message:
+        es: 'No se proporcionó ninguna clave de acceso a la API.'
+        en: 'No API access key was supplied.'
+      status: 401
+    inactive_user:
+      key: 'general.UNAUTHORIZED.inactive_user'
+      code: 'UNAUTHORIZED'
+      message:
+        es: 'La cuenta de usuario proporcionada está inactiva.'
+        en: 'The given user account is inactive.'
+      status: 401
+  FORBIDDEN:
+    https_access_restricted:
+      key: 'general.FORBIDDEN.https_access_restricted'
+      code: 'HTTPS_ACCESS_RESTRICTED'
+      message:
+        es: 'El acceso HTTPS no es compatible con el plan de suscripción actual.'
+        en: 'HTTPS access is not supported on the current subscription plan.'
+      status: 403
+    function_access_restricted:
+      key: 'general.FORBIDDEN.function_access_restricted'
+      code: 'FUNCTION_ACCESS_RESTRICTED'
+      message:
+        es: 'El endpoint de la API dado no es compatible con el plan de suscripción actual.'
+        en: 'The given API endpoint is not supported on the current subscription plan.'
+      status: 403
+  NOT_FOUND:
+    invalid_api_function:
+      key: 'general.NOT_FOUND.invalid_api_function'
+      code: 'INVALID_API_FUNCTION'
+      message:
+        es: 'El endpoint de la API dado no existe.'
+        en: 'The given API endpoint does not exist.'
+      status: 404
+    not_found:
+      key: 'general.NOT_FOUND.not_found'
+      code: 'NOT_FOUND'
+      message:
+        es: 'Recurso no encontrado.'
+        en: 'Resource not found.'
+      status: 404
+  TOO_MANY_REQUESTS:
+    usage_limit_reached:
+      key: 'general.TOO_MANY_REQUESTS.usage_limit_reached'
+      code: 'USAGE_LIMIT_REACHED'
+      message:
+        es: 'La cuenta de usuario ha alcanzado el volumen mensual de solicitudes permitidas.'
+        en: 'The given user account has reached its monthly allowed request volume.'
+      status: 429
+    rate_limit_reached:
+      key: 'general.TOO_MANY_REQUESTS.rate_limit_reached'
+      code: 'RATE_LIMIT_REACHED'
+      message:
+        es: 'La cuenta de usuario ha alcanzado el límite de velocidad.'
+        en: 'The given user account has reached the rate limit.'
+      status: 429
+  INTERNAL_SERVER_ERROR:
+    internal_error:
+      key: 'general.INTERNAL_SERVER_ERROR.internal_error'
+      code: 'INTERNAL_SERVER_ERROR'
+      message:
+        es: 'Ocurrió un error interno.'
+        en: 'An internal error occurred.'
+      status: 500
+
+oauth_errors:
+  redirect_error:
+    key: 'oauth_errors.redirect_error'
+    code: 'OAUTH_REDIRECT_FAILURE'
+    message:
+      es: 'Error al redirigir a Google OAuth'
+      en: 'Error redirecting to Google OAuth'
+    status: 500
+  token_retrieval_error:
+    key: 'oauth_errors.token_retrieval_error'
+    code: 'OAUTH_TOKEN_FAILURE'
+    message:
+      es: 'Error al obtener el token de Google'
+      en: 'Error retrieving the Google token'
+    status: 400
+  token_refresh_error:
+    key: 'oauth_errors.token_refresh_error'
+    code: 'OAUTH_TOKEN_REFRESH_FAILURE'
+    message:
+      es: 'Error al actualizar el token de acceso'
+      en: 'Error refreshing the access token'
+    status: 500
+  missing_authorization_code:
+    key: 'oauth_errors.missing_authorization_code'
+    code: 'MISSING_AUTHORIZATION_CODE'
+    message:
+      es: 'Falta el código de autorización'
+      en: 'Authorization code is missing'
+    status: 400
+
+http_client:
+  get_error:
+    key: 'http_client.get_error'
+    code: 'HTTP_CLIENT_GET_ERROR'
+    message:
+      es: 'Error en la solicitud GET'
+      en: 'Error in GET request'
+    status: 400
+  post_error:
+    key: 'http_client.post_error'
+    code: 'HTTP_CLIENT_POST_ERROR'
+    message:
+      es: 'Error en la solicitud POST'
+      en: 'Error in POST request'
+    status: 400
+  missing_refresh_token:
+    key: 'http_client.missing_refresh_token'
+    code: 'MISSING_REFRESH_TOKEN'
+    message:
+      es: 'Falta el token de actualización'
+      en: 'Missing refresh token'
+    status: 401
+  failed_to_refresh_token:
+    key: 'http_client.failed_to_refresh_token'
+    code: 'FAILED_TO_REFRESH_TOKEN'
+    message:
+      es: 'Error al actualizar el token'
+      en: 'Failed to refresh token'
+    status: 401
+  failed_to_verify_token:
+    key: 'http_client.failed_to_verify_token'
+    code: 'FAILED_TO_VERIFY_TOKEN'
+    message:
+      es: 'Error al verificar el token'
+      en: 'Failed to verify token'
+    status: 401
