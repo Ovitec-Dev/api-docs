@@ -27,6 +27,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/IncidentReportData'
+      parameters:
+        - in: query
+          name: TypeGestion
+          required: true
+          schema:
+            type: string
+            enum: [Consulta, Gestion]
+            example: Consulta
+          description: Type of incident management (Consulta or Gestion)
       responses:
         '201':
           description: Incident report created successfully
@@ -36,6 +45,8 @@ paths:
                 $ref: '#/components/responses/SuccessResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/InternalServerError'
 
@@ -86,6 +97,72 @@ paths:
                 $ref: '#/components/responses/SuccessResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/verify-direction:
+    get:
+      tags:
+        - Incident Report
+      summary: Verify the address
+      description: Verify the standardization of an address based on the street and number.
+      operationId: verifyDirection
+      parameters:
+        - in: query
+          name: calle
+          required: true
+          schema:
+            type: string
+          description: Name of the street
+        - in: query
+          name: altura
+          required: true
+          schema:
+            type: string
+          description: Number of the street
+      responses:
+        '200':
+          description: Address verified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/export-csv:
+    get:
+      tags:
+        - Incident Report
+      summary: Export incident reports to CSV
+      description: Export incident reports based on query parameters to a CSV file.
+      operationId: exportCsv
+      parameters:
+        - $ref: '#/components/parameters/Query'
+      responses:
+        '200':
+          description: CSV export successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'CSV exportado correctamente'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/InternalServerError'
 
@@ -130,6 +207,54 @@ components:
         informacionAdicional:
           type: string
           example: 'Additional information'
+
+    AddressData:
+      type: object
+      properties:
+        direccionOriginal:
+          type: string
+          example: 'Original Address'
+        estandar:
+          type: string
+          example: 'Standard Address'
+        altura:
+          type: string
+          example: '100'
+        x:
+          type: string
+          example: '40.7128'
+        y:
+          type: string
+          example: '-74.0060'
+        cgm:
+          type: string
+          example: 'CGM Data'
+
+    ISearch_Report_Summary:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        incidentId:
+          type: string
+          example: 'INC12345'
+        incidentType:
+          type: integer
+          example: 1
+        incidentSubtype:
+          type: string
+          example: 'Subtype 1'
+        status:
+          type: string
+          example: 'Open'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2024-06-23T00:00:00Z'
+        nivelRiesgo:
+          type: string
+          example: 'High'
 
     StandardResponse:
       type: object
@@ -205,6 +330,58 @@ components:
     Query:
       name: query
       in: query
-      description: Query parameters
+      description: Query parameters for incident report search
       schema:
-        type: string
+        type: object
+        properties:
+          sort_dir:
+            type: string
+            description: 'Direction of sorting (asc or desc)'
+            example: 'asc'
+          zone_geografica:
+            type: string
+            description: 'Geographic zone'
+            example: 'Norte'
+          page:
+            type: string
+            description: 'Current page number'
+            example: '1'
+          type:
+            type: string
+            description: 'Type of case'
+            example: 'Consulta'
+          page_size:
+            type: string
+            description: 'Size of each page'
+            example: '10'
+          access_key:
+            type: string
+            description: 'Access key for the API'
+            example: 'my-access-key'
+          limit:
+            type: string
+            description: 'Limit of records to return'
+            example: '50'
+          filter:
+            type: object
+            description: 'Additional filter parameters'
+          offset:
+            type: string
+            description: 'Offset for pagination'
+            example: '0'
+          order:
+            type: string
+            description: 'Field to order by'
+            example: 'createdAt'
+          case_status:
+            type: string
+            description: 'Status of the case'
+            example: 'Abierto'
+          case_date:
+            type: string
+            description: 'Date of the case'
+            example: '2024-06-23'
+          case_number:
+            type: string
+            description: 'Case number'
+            example: '12345'
